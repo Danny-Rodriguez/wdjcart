@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import "./App.css"
 import Products from "./components/Products"
 import Cart from "./components/Cart"
@@ -6,9 +6,15 @@ import Cart from "./components/Cart"
 const PAGE_PRODUCTS = "products"
 const PAGE_CART = "cart"
 
+const cartFromLocalStorage = JSON.parse(localStorage.getItem("cart") || "[]")
+
 function App() {
-  const [cart, setCart] = useState([])
+  const [cart, setCart] = useState(cartFromLocalStorage)
   const [page, setPage] = useState(PAGE_PRODUCTS)
+
+  useEffect(() => {
+    localStorage.setItem("cart", JSON.stringify(cart))
+  }, [cart])
 
   const addToCart = product => {
     // console.log("we are in addToCart")
@@ -22,26 +28,6 @@ function App() {
   const navigateTo = nextPage => {
     setPage(nextPage)
   }
-
-  // const renderProducts = () => (
-  //   <>
-  //     <h1>Products</h1>
-  //     <div className="products">
-  //       {products.map((product, idx) => (
-  //         <div className="product" key={idx}>
-  //           <h3>{product.name}</h3>
-  //           <h4>{product.cost}</h4>
-  //           <img src={product.image} alt={product.name} referrerPolicy="no-referrer" />
-  //           <button onClick={() => addToCart(product)}>Add to Cart</button>
-  //         </div>
-  //       ))}
-  //     </div>
-  //   </>
-  // )
-
-  // const renderCart = () => (
-
-  // )
 
   return (
     <div className="App">
