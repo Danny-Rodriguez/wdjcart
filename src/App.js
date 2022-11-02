@@ -1,8 +1,12 @@
 import { useState } from "react"
 import "./App.css"
 
+const PAGE_PRODUCTS = "products"
+const PAGE_CART = "cart"
+
 function App() {
   const [cart, setCart] = useState([])
+  const [page, setPage] = useState(PAGE_PRODUCTS)
 
   const [products, setProducts] = useState([
     {
@@ -18,12 +22,20 @@ function App() {
   ])
 
   const addToCart = product => {
-    console.log("we are in addToCart")
-    setCart([...cart, product])
+    // console.log("we are in addToCart")
+    setCart([...cart, { ...product }])
   }
 
-  return (
-    <div className="App">
+  const removeFromCart = productToRemove => {
+    setCart(cart.filter(product => product !== productToRemove))
+  }
+
+  const navigateTo = nextPage => {
+    setPage(nextPage)
+  }
+
+  const renderProducts = () => (
+    <>
       <h1>Products</h1>
       <div className="products">
         {products.map((product, idx) => (
@@ -35,13 +47,34 @@ function App() {
           </div>
         ))}
       </div>
+    </>
+  )
 
-      {/* <div>
-        <h3>AA Battery</h3>
-        <h4>$2.99</h4>
-        <img src="https://image.shutterstock.com/image-photo/one-aa-battery-isolated-on-260nw-1009985116.jpg" alt="battery" referrerPolicy="no-referrer" />
-        <button>Add to Cart</button>
-      </div> */}
+  const renderCart = () => (
+    <>
+      <h1>Cart</h1>
+      <div className="products">
+        {cart.map((product, idx) => (
+          <div className="product" key={idx}>
+            <h3>{product.name}</h3>
+            <h4>{product.cost}</h4>
+            <img src={product.image} alt={product.name} referrerPolicy="no-referrer" />
+            <button onClick={() => removeFromCart(product)}>Remove</button>
+          </div>
+        ))}
+      </div>
+    </>
+  )
+
+  return (
+    <div className="App">
+      <header>
+        <button onClick={() => navigateTo(PAGE_CART)}>Go to Cart ({cart.length})</button>
+
+        <button onClick={() => navigateTo(PAGE_PRODUCTS)}>View Products </button>
+      </header>
+      {page === PAGE_PRODUCTS && renderProducts()}
+      {page === PAGE_CART && renderCart()}
     </div>
   )
 }

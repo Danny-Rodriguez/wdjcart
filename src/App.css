@@ -51,3 +51,14 @@
 .product {
   padding: 40px;
 }
+
+button {
+  font-size: 20px;
+  padding: 10px;
+}
+
+header {
+  background-color: rgb(139, 217, 139);
+  height: 70px;
+  padding-top: 20px;
+}
