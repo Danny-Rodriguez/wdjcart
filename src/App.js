@@ -1,5 +1,7 @@
 import { useState } from "react"
 import "./App.css"
+import Products from "./components/Products"
+import Cart from "./components/Cart"
 
 const PAGE_PRODUCTS = "products"
 const PAGE_CART = "cart"
@@ -7,19 +9,6 @@ const PAGE_CART = "cart"
 function App() {
   const [cart, setCart] = useState([])
   const [page, setPage] = useState(PAGE_PRODUCTS)
-
-  const [products, setProducts] = useState([
-    {
-      name: "AA Battery",
-      cost: "2.99",
-      image: "https://image.shutterstock.com/image-photo/one-aa-battery-isolated-on-260nw-1009985116.jpg"
-    },
-    {
-      name: "Blanket",
-      cost: "19.99",
-      image: "https://cdn.shopify.com/s/files/1/0113/9323/7056/products/BigBlanket-burntorange-side4-789067.png?v=1663335434"
-    }
-  ])
 
   const addToCart = product => {
     // console.log("we are in addToCart")
@@ -34,37 +23,25 @@ function App() {
     setPage(nextPage)
   }
 
-  const renderProducts = () => (
-    <>
-      <h1>Products</h1>
-      <div className="products">
-        {products.map((product, idx) => (
-          <div className="product" key={idx}>
-            <h3>{product.name}</h3>
-            <h4>{product.cost}</h4>
-            <img src={product.image} alt={product.name} referrerPolicy="no-referrer" />
-            <button onClick={() => addToCart(product)}>Add to Cart</button>
-          </div>
-        ))}
-      </div>
-    </>
-  )
+  // const renderProducts = () => (
+  //   <>
+  //     <h1>Products</h1>
+  //     <div className="products">
+  //       {products.map((product, idx) => (
+  //         <div className="product" key={idx}>
+  //           <h3>{product.name}</h3>
+  //           <h4>{product.cost}</h4>
+  //           <img src={product.image} alt={product.name} referrerPolicy="no-referrer" />
+  //           <button onClick={() => addToCart(product)}>Add to Cart</button>
+  //         </div>
+  //       ))}
+  //     </div>
+  //   </>
+  // )
 
-  const renderCart = () => (
-    <>
-      <h1>Cart</h1>
-      <div className="products">
-        {cart.map((product, idx) => (
-          <div className="product" key={idx}>
-            <h3>{product.name}</h3>
-            <h4>{product.cost}</h4>
-            <img src={product.image} alt={product.name} referrerPolicy="no-referrer" />
-            <button onClick={() => removeFromCart(product)}>Remove</button>
-          </div>
-        ))}
-      </div>
-    </>
-  )
+  // const renderCart = () => (
+
+  // )
 
   return (
     <div className="App">
@@ -73,8 +50,8 @@ function App() {
 
         <button onClick={() => navigateTo(PAGE_PRODUCTS)}>View Products </button>
       </header>
-      {page === PAGE_PRODUCTS && renderProducts()}
-      {page === PAGE_CART && renderCart()}
+      {page === PAGE_PRODUCTS && <Products addToCart={addToCart} />}
+      {page === PAGE_CART && <Cart cart={cart} removeFromCart={removeFromCart} />}
     </div>
   )
 }
